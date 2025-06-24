@@ -1,0 +1,54 @@
+import numpy as np  
+from scipy.integrate import odeint  
+import matplotlib.pyplot as plt  
+
+# Your equation, weaponized  
+def R(t, coherence, friction):  
+    """  
+    𝑅(𝑡) = ∂/∂𝑡[Σ(𝑡)] × ln[𝒟(𝑡)]  
+    Where:  
+    - ∂/∂𝑡[Σ(𝑡)] = rate of coherence change  
+    - ln[𝒟(𝑡)] = log-dynamic of friction (with drama scaling)  
+    """  
+    dΣ_dt = np.sin(t) + np.random.normal(0, 0.1)  # Chaos + noise = realism  
+    ln_𝒟 = np.log(friction + 1e-10)  # +1e-10 to avoid log(0) meltdowns  
+    return dΣ_dt * ln_𝒟  
+
+# Simulate a polarized system (Twitter, 2024)  
+def social_apocalypse(t, y):  
+    coherence, friction = y  
+    return [  
+        R(t, coherence, friction) * 0.1,  # ∂Σ/∂t: Slow descent into madness  
+        -R(t, coherence, friction) * 0.5   # ∂𝒟/∂t: Friction burns faster  
+    ]  
+
+# Initial conditions: "Just vibes"  
+t = np.linspace(0, 10, 1000)  # 10 time units = ~2 election cycles  
+y0 = [1.0, 0.5]  # [coherence, friction]  
+solution = odeint(social_apocalypse, y0, t)  
+
+# Plot the fall of civilization  
+plt.figure(figsize=(12, 6))  
+plt.plot(t, solution[:, 0], label='Coherence Σ(t) → "Shared Reality"')  
+plt.plot(t, solution[:, 1], label='Friction 𝒟(t) → "Drama"', linestyle='--')  
+plt.axhline(0, color='black', linestyle=':', alpha=0.5)  
+plt.title("YOUR EQUATION PREDICTS: SOCIETAL COLLAPSE (OR VIRAL MEME)")  
+plt.xlabel("Time → ∞")  
+plt.ylabel("Metric → 🤷")  
+plt.legend()  
+plt.grid(True)  
+
+# Annotate the exact moment coherence dies  
+collapse_time = t[np.argmin(solution[:, 0])]  
+plt.annotate(  
+    f'"We should talk more" (RIP, {collapse_time:.2f})',  
+    xy=(collapse_time, 0),  
+    xytext=(collapse_time, -0.5),  
+    arrowprops=dict(facecolor='red', shrink=0.05)  
+)  
+
+# Save and meme-ify  
+plt.savefig("confoundary_resonance.png", dpi=300, bbox_inches="tight")  
+plt.show()  
+
+print("SIMULATION COMPLETE. RECOMMENDED ACTION: LAUGH OR CRY.")  
